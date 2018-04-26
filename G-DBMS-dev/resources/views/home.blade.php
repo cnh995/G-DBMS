@@ -7,118 +7,20 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-und">
-                <div class="panel-heading">Dashboard</div>
-
-                @if($allowViewing)
-                    <div class="panel-body">
-
-                        <ul class="nav nav-tabs nav-justified">
-                            <li class="active"><a href="#chart" data-toggle="tab">Chart</a></li>
-                            <li><a href="#table" data-toggle="tab">Table</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <!-- Chart tab contents -->
-                            <div id="chart" class="tab-pane fade in active">
-                                <div id="chart" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
-                            </div>
-
-                            <!-- Table tab contents -->
-                            <div id="table" class="tab-pane fade">
-                                <div class="table-responsive">
-                                    <table id="budget_table" class="table table-hover">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th>Source</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="remaining" class="info" data-toggle="collapse" data-target=".collapse_remaining">
-                                                <td>Remaining</td><td></td>
-                                            </tr>
-
-                                            <tr id="pending_assistantships" class="info" data-toggle="collapse" data-target=".collapse_pending_assistantships">
-                                                <td>Pending Assistantships</td><td></td>
-                                            </tr>
-
-                                            <tr id="assistantships" class="info" data-toggle="collapse" data-target=".collapse_assistantships">
-                                                <td>Assistantships</td><td></td>
-                                            </tr>
-
-                                            <tr id="waivers" class="info" data-toggle="collapse" data-target=".collapse_waivers">
-                                                <td>Tuition Waivers</td><td></td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="bg-primary">
-                                                <th>Total</th><th></th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        {!! Form::model($budget, ['route' => ['budget.update', $budget], 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    {!! Form::select('academic_year', $years, null, ['placeholder' => "Choose an Academic Year", 'class' => 'form-control']) !!}
-                                </div>
-                            </div>
-
-                            @if ($allowChanges)
-
-                                <hr />
-
-                                <div class="form-group{{ $errors->has('academic_year') ? ' has-error' : '' }}">
-                                    {!! Form::label('academic_year', 'Academic Year:', ['class' => 'col-md-4 control-label']) !!}
-
-                                    <div class="col-md-6">
-                                        {!! Form::number('academic_year', null, ['disabled' => 'disabled', 'class' => 'form-control disabled']) !!}
-
-                                        @if ($errors->has('academic_year'))
-                                            <span class="help-block">
-                                				<strong>{{ $errors->first('academic_year') }}</strong>
-                                			</span>
-                                		@endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group{{ $errors->has('budget') ? ' has-error' : '' }}">
-                                    {!! Form::label('budget', 'Budget:', ['class' => 'col-md-4 control-label']) !!}
-
-                                    <div class="col-md-6">
-                                        {!! Form::number('budget', null, ['class' => 'form-control']) !!}
-
-                                        @if ($errors->has('budget'))
-                                            <span class="help-block">
-                                				<strong>{{ $errors->first('budget') }}</strong>
-                                			</span>
-                                		@endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-3 col-md-offset-4">
-                                        {!! Form::submit('Submit', ['class' => 'btn btn-success']) !!}
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="btn-group btn-toggle pull-right">
-                                            <button type="button" data-action="update" class="btn btn-info active">Update</button>
-                                            <button type="button" data-action="add" class="btn btn-default">Add New</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-    					{!! Form::close() !!}
-
-                    </div> <!-- /.panel-body -->
-                @else
-                    <div class='panel-body'>
-                        <span class='text'> Welcome to G-DBMS!</span>
-                    </div> <!-- /.panel-body -->
-                @endif
+                <div class="panel-heading">Dashboard - GTA Assignments</div>
+				
+			
+				
+				
+        			<table class='table table-striped table-condensed table-bordered'>
+        				<tr>
+        					<td><strong>Course</strong></td>
+        					<td><strong>GTA</strong></td>
+        					<td><strong>Instructor</strong></td>
+        					<td><strong>Semester</strong></td>
+        				</tr>
+	            		<!-- Start data for each student -->
+	            	</table>
             </div> <!-- /.panel-und -->
         </div>
     </div>
