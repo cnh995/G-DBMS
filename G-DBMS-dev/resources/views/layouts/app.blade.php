@@ -109,7 +109,10 @@
         </div>
     </nav>
 	<!-- Navigation on left -->
+	@if (Auth::check())
+                    <?php $role = Auth::user()->role->name; ?>
 	<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:160px;">
+		
 		
 		<button class="w3-button w3-block w3-left-align" onclick="studentAccFunc()">Student <i class="fa fa-caret-down"></i></button>
 			<div id="studentAcc" class="w3-hide w3-white w3-card">
@@ -160,7 +163,7 @@
 				</div>
 		@endif
 	</div>
-	
+	@endif
     <div class="flash-message">
         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
             @if(Session::has('alert-' . $msg))

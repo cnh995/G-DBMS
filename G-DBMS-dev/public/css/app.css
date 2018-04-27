@@ -30,7 +30,8 @@ select.form-control + span {
 
 /* Custom style for a UND themed navbar */
 .navbar-und {
-  background-color: #009a44;
+  background-color: #000000;
+  height: 70px;
   border-color: #296b29; }
   .navbar-und .navbar-toggle {
     border-color: #296b29; }
