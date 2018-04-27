@@ -60,7 +60,6 @@
                     <?php $role = Auth::user()->role->name; ?>
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/budget') }}">Budget</a></li>
 
                         @if ($role == 'Director' || $role == 'Chair')
                             <li class="dropdown">

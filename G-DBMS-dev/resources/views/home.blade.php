@@ -14,12 +14,26 @@
 				
         			<table class='table table-striped table-condensed table-bordered'>
         				<tr>
-        					<td><strong>Course</strong></td>
         					<td><strong>GTA</strong></td>
+							<td><strong>Credits</strong></td>
+							<td><strong>Course</strong></td>
+							<td><strong>Workload (%)</strong></td>
+							<td><strong># Labs/Grader</strong></td>
         					<td><strong>Instructor</strong></td>
-        					<td><strong>Semester</strong></td>
         				</tr>
+						
 	            		<!-- Start data for each student -->
+		            	@foreach($gtas as $gta)
+		            		<tr>
+		            			
+		            			<td>{{ $gta->assistantship->student->proper_name }}</td>
+								<td></td>
+								<td>{{ $gta->course }}</td>
+								<td></td>
+		            			<td></td>
+		            			<td>{{ $gta->instructor->proper_name }}</td>
+							</tr>
+		            	@endforeach
 	            	</table>
             </div> <!-- /.panel-und -->
         </div>
@@ -34,56 +48,6 @@
 
 <script>
 $(function () {
-    Highcharts.setOptions({
-        colors: ['#cc8033', '#cc3333', '#3333cc', '#33cc33',]
-    });
-
-    // Build the chart
-    Highcharts.chart('chart', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-            events: {
-                drilldown: function (e) {
-                    if (!e.seriesOptions) {
-                        var chart = this;
-                        var year = $("select[name=academic_year]").val();
-
-                        chart.showLoading('Loading ...');
-
-                        function addDrilldownToChart(data) {
-                            chart.addSeriesAsDrilldown(e.point, data['drilldowns']);
-                            chart.hideLoading();
-                        }
-
-                        getDrilldownData(year, e.point.drilldown, addDrilldownToChart);
-                    }
-                }
-            }
-        },
-        title: {
-            text: 'Yearly Budget'
-        },
-        tooltip: {
-            pointFormat: '{point.y}: <b>{point.percentage:.1f}%</b>',
-            valueDecimals: 2,
-            valuePrefix: '$'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.name}:<br/>${y:.2f}"
-                },
-                showInLegend: true
-            }
-        }
-    });
-
     $("select[name=academic_year]").change(function () {
         var chart = $("#chart").highcharts();
         chart.showLoading('Loading ...');
