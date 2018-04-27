@@ -8,6 +8,9 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-und">
                 <div class="panel-heading">Dashboard - GTA Assignments</div>
+						</nav>
+				
+				
 				
         			<table class='table table-striped table-condensed table-bordered'>
         				<tr>
