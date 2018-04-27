@@ -9,9 +9,6 @@
             <div class="panel panel-und">
                 <div class="panel-heading">Dashboard - GTA Assignments</div>
 				
-			
-				
-				
         			<table class='table table-striped table-condensed table-bordered'>
         				<tr>
         					<td><strong>Course</strong></td>
