@@ -74,7 +74,7 @@
 
         li:hover a { background: #green; }
 
-        li:hover li a:hover { background: #2c3e50; }
+        li:hover li a:hover { background:grey; }
 
         .main-navigation li ul li { border-top: 0; }
 
@@ -147,6 +147,7 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
                                             <ul>
                                                 <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                                <li><a href="{{ url('/gce/result') }}">Report</a></li>
                                             </ul>
                                     </li>
                                     <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
@@ -170,6 +171,7 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
                                             <ul>
                                                 <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                                <li><a href="{{ url('/gce/result') }}">Report</a></li>
                                             </ul>
                                     </li>
                                     <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
@@ -186,13 +188,13 @@
                                                 <li><a href="{{ url('/gqe/result') }}">Result</a></li>
                                                 <li><a href="{{ url('/gqe/offering') }}">Offering</a></li>
                                                 <li><a href="{{ url('/gqe/section') }}">Section</a></li>
-                                                <li><a href="{{ url('/gqe/passlevel') }}">Pass Level</a></li>
                                             </ul>
                                 </li>
                                 <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
                                         <ul>
                                             <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                            <li><a href="{{ url('/gce/result') }}">Report</a></li>
                                         </ul>
                                 </li>
                                 <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
