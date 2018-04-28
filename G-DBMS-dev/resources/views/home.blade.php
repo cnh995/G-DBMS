@@ -17,21 +17,21 @@
         					<td><strong>GTA</strong></td>
 							<td><strong>Credits</strong></td>
 							<td><strong>Course</strong></td>
-							<td><strong>Workload (%)</strong></td>
+							<td><strong>Time</strong></td>
 							<td><strong># Labs/Grader</strong></td>
         					<td><strong>Instructor</strong></td>
         				</tr>
 						
 	            		<!-- Start data for each student -->
-		            	@foreach($gtas as $gta)
+		            	@foreach($assists as $assist)
 		            		<tr>
 		            			
-		            			<td>{{ $gta->assistantship->student->proper_name }}</td>
-								<td></td>
-								<td>{{ $gta->course }}</td>
-								<td></td>
-		            			<td></td>
-		            			<td>{{ $gta->instructor->proper_name }}</td>
+		            			<td>{{ $assist->student->full_name }}</td>
+								<td>{{ $assist->corresponding_waiver->credit_hours }}</td>
+								<td>{{ $assist->gta_assignment->course }}</td>
+								<td>{{ $assist->time }}</td>
+		            			<td>{{ $assist->gta_assignment->num_labs_or_grader }}</td>
+		            			<td>{{ $assist->gta_assignment->instructor->proper_name }}</td>
 							</tr>
 		            	@endforeach
 	            	</table>
@@ -45,147 +45,4 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-
-<script>
-$(function () {
-    $("select[name=academic_year]").change(function () {
-        var chart = $("#chart").highcharts();
-        chart.showLoading('Loading ...');
-        chart.setTitle(null, {text: $('select[name=academic_year] option:selected').text()});
-
-        while (chart.series.length > 0)
-            chart.series[0].remove(true);
-
-        // Get the budget table's major row elements
-        var $major_rows = $('#budget_table > tbody > tr[id]');
-
-        // Empty each of the dollar amounts <td>'s from the major rows
-        $major_rows.children('td:last-child').html('');
-
-        // Detach all the collapsible <tr>'s
-        $major_rows.nextUntil('tr[id]').detach();
-
-        // Empty the total amount in the table footer
-        var $td_total = $('#budget_table > tfoot > tr > th:last-child').html('');
-
-        var year = $(this).val();
-
-        // Change the form's action to direct to the correct budget academic_year
-        $('form').attr('action', '/home/budget/' + year);
-
-        // AJAX call to get pie chart data
-        $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: "{{ url('/home/chart') }}",
-            data: {year: year},
-            success: function (data) {
-                chart.addSeries({
-                    name: 'Source',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Pending Assistantships',
-                        y: data['pending_assistantships'],
-                        drilldown: 'pending_assistantships'
-                    }, {
-                        name: 'Assistantships',
-                        y: data['assistantships'],
-                        drilldown: 'assistantships'
-                    }, {
-                        name: 'Tuition Waivers',
-                        y: data['waivers'],
-                        drilldown: 'waivers'
-                    }, {
-                        name: 'Remaining',
-                        y: data['remaining']
-                    }]
-                });
-
-                chart.hideLoading();
-
-                $major_rows.each(function (idx) {
-                    // Change the major_row's total
-                    var $row = $(this);
-                    $row.children('td:last-child').html(data[this.id].formatMoney(2));
-
-                    function addDrilldownToTable(students_data) {
-                        var $sub_rows = students_data['drilldowns']['data'].map(function (datum) {
-                            // datum == [student_name, dollar_amount]
-                            return $('<tr/>', {
-                                'class': 'panel-collapse collapse collapse_' + $row.attr('id'),
-                                html: '<td>' + datum[0] + '</td><td>' + datum[1].formatMoney(2) + '</td>'
-                            });
-                        });
-
-                        $row.after($sub_rows);
-                    }
-
-                    getDrilldownData(year, this.id, addDrilldownToTable);
-                });
-
-                // Change total amount
-                $td_total.html(data['budget'].formatMoney(2));
-            }
-        });
-
-        // AJAX call to fill-in the input fields with the selected budget information
-        $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: "/home/budget/" + year,
-            data: {year: year},
-            success: function (data) {
-                $("input[name=academic_year").val(data['budget']['academic_year']);
-                $("input[name=budget").val(data['budget']['budget']);
-            }
-        });
-    }).change();
-
-    $('.btn-toggle').click(function () {
-        var $btns = $(this).find('.btn');
-
-        $btns
-            .toggleClass('active')
-            .toggleClass('btn-info')
-            .toggleClass('btn-default');
-
-        var new_action = $btns.filter('.active').data('action');
-        var $input_academic_year = $('input[name=academic_year]');
-
-        if (new_action === 'update') {
-            // $('form').find('input[name=_method]').val('PATCH');
-            $input_academic_year.prop('disabled', true);
-            $('select[name=academic_year]').change();  //
-        } else {
-            // $('form').find('input[name=_method]').val('POST');
-            $input_academic_year.prop('disabled', false);
-        }
-    })
-
-    $('form').submit(function () {
-        var action = $('.btn-toggle').find('.active').data('action');
-
-        if (action === 'update') {
-            $(this).find('input[name=_method]').val('PATCH');
-            $(this).attr('action', '/home/budget/' + $('input[name=academic_year]').val());
-        } else {  // user wants to Add a New Budget
-            $(this).find('input[name=_method]').val('POST');
-            $(this).attr('action', '/home/budget');
-        }
-
-        return true;  // Let typical form submit do its work
-    });
-
-});
-
-function getDrilldownData(year, drilldown_name, success_callback) {
-    $.ajax({
-        dataType: "json",
-        type: "GET",
-        url: "{{ url('/home/drilldown') }}",
-        data: {year: year, name: drilldown_name},
-        success: success_callback
-    });
-}
-</script>
 @endsection

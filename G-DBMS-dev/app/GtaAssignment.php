@@ -23,7 +23,7 @@ class GtaAssignment extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'assistantship_id','instructor_id','course',
+        'assistantship_id','instructor_id','course','num_labs_or_grader',
     ];
 
     public function assistantship() 
