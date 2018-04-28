@@ -168,6 +168,7 @@ class StudentController extends Controller
         ]);
     }
 
+    
     public function delete(Student $student)
     {
     	$student->delete();
@@ -224,4 +225,334 @@ class StudentController extends Controller
 
     	return Redirect::to('/student');
     }
+
+    //MS Non-Thesis
+    public function index_msnon(Request $request)
+    {
+        $sort_by = $request->get('sort_by','last_name');
+        $sort_out_of_db = in_array($sort_by, ['semester_started']);
+
+        $query = Student::with('gce_results','gqe_results','programs')->join('student_programs','student_programs.student_id','=','students.id','left outer')
+        ->where('program_id','=', 3);
+        if(!$sort_out_of_db) // ie sort by a db field
+            $query->orderBy($sort_by);
+
+
+        if($request->has('first_name'))
+            $query->where('first_name', 'like', '%'.$request->get('first_name').'%');
+        if($request->has('last_name'))
+            $query->where('last_name', 'like', '%'.$request->get('last_name').'%');
+
+        if($request->all() == null)
+        {
+            $query->where(function($query)
+            {
+                $query->orWhere('is_current',true)->orWhere(function($query)
+                {
+                    $query->whereNull('is_current');
+                });
+            });
+        }
+        else if($request->has('is_current')) //the default is for current students only
+        {
+            if($request->get('is_current') === 'Yes')
+            {
+                $query->where(function($query)
+                {
+                    $query->orWhere('is_current',true)->orWhere(function($query)
+                    {
+                        $query->whereNull('is_current');
+                    });
+                });
+            }
+            else
+                $query->where('is_current',false);
+        }
+
+        if ($request->has('has_committee'))
+            $query->where('has_committee', $request->get('has_committee') === 'Yes');
+
+        if ($request->has('has_program_study'))
+            $query->where('has_program_study', $request->get('has_program_study') === 'Yes');
+
+        if ($request->has('is_graduated'))
+            $query->where('is_graduated', $request->get('is_graduated') === 'Yes');
+
+        if ($request->has('faculty_supported'))
+            $query->where('faculty_supported', $request->get('faculty_supported') === 'Yes');
+
+        if ($request->has('program_id'))
+            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('advisor_id'))
+            $query->whereIn('advisor_id', $request->get('advisor_id'));
+
+        if ($request->has('semester_started_id'))
+            $query->whereIn('semester_started_id', $request->get('semester_started_id'));
+
+        if ($request->has('semester_graduated_id'))
+            $query->whereIn('semester_graduated_id', $request->get('semester_graduated_id'));
+
+        $students = $query->distinct()->get(['students.*']);
+        $showRank = false;
+        if($sort_out_of_db)
+        {
+            if($sort_by === 'semester_started')
+            {
+                $students = $students->sortByDesc(function($stud){
+                    $last_start = -1;
+                    foreach ($stud->programs as $sp) {
+                        if($last_start == -1)
+                            $last_start = $sp->semester_started->sort_num;
+                        else if($sp->semester_started->sort_num > $last_start)
+                            $last_start = $sp->semester_started->sort_num;
+                    }
+                    return $last_start;
+                });
+            }
+        }
+
+        return view('/student/index', [
+            'students' => $students,
+            'advisors' => Advisor::all()->lists("full_name","id"),
+            'programs' => Program::lists("name","id"),
+            'semesters' => Semester::all()->lists("full_name","id"),
+            'yesNo' => ['Yes' => 'Yes', 'No' => 'No'],
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'advisor_id' => $request->get('advisor_id'),
+            'program_id' => $request->get('program_id'),
+            'semester_started_id' => $request->get('semester_started_id'),
+            'semester_graduated_id' => $request->get('semester_graduated_id'),
+            'is_current' => $request->input('is_current','Yes'),
+            'is_graduated' => $request->get('is_graduated'),
+            'has_program_study' => $request->get('has_program_study'),
+            'faculty_supported' => $request->get('faculty_supported'),
+            'has_committee' => $request->get('has_committee'),
+            'sort_options' => $this->sort_options,
+            'sort_by' => $sort_by,
+            'showRank' => $showRank,
+        ]);
+    }
+
+    //MS Thesis
+    public function index_ms(Request $request)
+    {
+        $sort_by = $request->get('sort_by','last_name');
+        $sort_out_of_db = in_array($sort_by, ['semester_started']);
+
+        $query = Student::with('gce_results','gqe_results','programs')->join('student_programs','student_programs.student_id','=','students.id','left outer')
+        ->where('program_id','=', 2);
+        if(!$sort_out_of_db) // ie sort by a db field
+            $query->orderBy($sort_by);
+
+
+        if($request->has('first_name'))
+            $query->where('first_name', 'like', '%'.$request->get('first_name').'%');
+        if($request->has('last_name'))
+            $query->where('last_name', 'like', '%'.$request->get('last_name').'%');
+
+        if($request->all() == null)
+        {
+            $query->where(function($query)
+            {
+                $query->orWhere('is_current',true)->orWhere(function($query)
+                {
+                    $query->whereNull('is_current');
+                });
+            });
+        }
+        else if($request->has('is_current')) //the default is for current students only
+        {
+            if($request->get('is_current') === 'Yes')
+            {
+                $query->where(function($query)
+                {
+                    $query->orWhere('is_current',true)->orWhere(function($query)
+                    {
+                        $query->whereNull('is_current');
+                    });
+                });
+            }
+            else
+                $query->where('is_current',false);
+        }
+
+        if ($request->has('has_committee'))
+            $query->where('has_committee', $request->get('has_committee') === 'Yes');
+
+        if ($request->has('has_program_study'))
+            $query->where('has_program_study', $request->get('has_program_study') === 'Yes');
+
+        if ($request->has('is_graduated'))
+            $query->where('is_graduated', $request->get('is_graduated') === 'Yes');
+
+        if ($request->has('faculty_supported'))
+            $query->where('faculty_supported', $request->get('faculty_supported') === 'Yes');
+
+        if ($request->has('program_id'))
+            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('advisor_id'))
+            $query->whereIn('advisor_id', $request->get('advisor_id'));
+
+        if ($request->has('semester_started_id'))
+            $query->whereIn('semester_started_id', $request->get('semester_started_id'));
+
+        if ($request->has('semester_graduated_id'))
+            $query->whereIn('semester_graduated_id', $request->get('semester_graduated_id'));
+
+        $students = $query->distinct()->get(['students.*']);
+        $showRank = false;
+        if($sort_out_of_db)
+        {
+            if($sort_by === 'semester_started')
+            {
+                $students = $students->sortByDesc(function($stud){
+                    $last_start = -1;
+                    foreach ($stud->programs as $sp) {
+                        if($last_start == -1)
+                            $last_start = $sp->semester_started->sort_num;
+                        else if($sp->semester_started->sort_num > $last_start)
+                            $last_start = $sp->semester_started->sort_num;
+                    }
+                    return $last_start;
+                });
+            }
+        }
+
+        return view('/student/index', [
+            'students' => $students,
+            'advisors' => Advisor::all()->lists("full_name","id"),
+            'programs' => Program::lists("name","id"),
+            'semesters' => Semester::all()->lists("full_name","id"),
+            'yesNo' => ['Yes' => 'Yes', 'No' => 'No'],
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'advisor_id' => $request->get('advisor_id'),
+            'program_id' => $request->get('program_id'),
+            'semester_started_id' => $request->get('semester_started_id'),
+            'semester_graduated_id' => $request->get('semester_graduated_id'),
+            'is_current' => $request->input('is_current','Yes'),
+            'is_graduated' => $request->get('is_graduated'),
+            'has_program_study' => $request->get('has_program_study'),
+            'faculty_supported' => $request->get('faculty_supported'),
+            'has_committee' => $request->get('has_committee'),
+            'sort_options' => $this->sort_options,
+            'sort_by' => $sort_by,
+            'showRank' => $showRank,
+        ]);
+    }
+ 
+    //PHD students
+    public function index_phd(Request $request)
+    {
+        $sort_by = $request->get('sort_by','last_name');
+        $sort_out_of_db = in_array($sort_by, ['semester_started']);
+
+        $query = Student::with('gce_results','gqe_results','programs')->join('student_programs','student_programs.student_id','=','students.id','left outer')
+        ->where('program_id','=', 4);
+        if(!$sort_out_of_db) // ie sort by a db field
+            $query->orderBy($sort_by);
+
+
+        if($request->has('first_name'))
+            $query->where('first_name', 'like', '%'.$request->get('first_name').'%');
+        if($request->has('last_name'))
+            $query->where('last_name', 'like', '%'.$request->get('last_name').'%');
+
+        if($request->all() == null)
+        {
+            $query->where(function($query)
+            {
+                $query->orWhere('is_current',true)->orWhere(function($query)
+                {
+                    $query->whereNull('is_current');
+                });
+            });
+        }
+        else if($request->has('is_current')) //the default is for current students only
+        {
+            if($request->get('is_current') === 'Yes')
+            {
+                $query->where(function($query)
+                {
+                    $query->orWhere('is_current',true)->orWhere(function($query)
+                    {
+                        $query->whereNull('is_current');
+                    });
+                });
+            }
+            else
+                $query->where('is_current',false);
+        }
+
+        if ($request->has('has_committee'))
+            $query->where('has_committee', $request->get('has_committee') === 'Yes');
+
+        if ($request->has('has_program_study'))
+            $query->where('has_program_study', $request->get('has_program_study') === 'Yes');
+
+        if ($request->has('is_graduated'))
+            $query->where('is_graduated', $request->get('is_graduated') === 'Yes');
+
+        if ($request->has('faculty_supported'))
+            $query->where('faculty_supported', $request->get('faculty_supported') === 'Yes');
+
+        if ($request->has('program_id'))
+            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('advisor_id'))
+            $query->whereIn('advisor_id', $request->get('advisor_id'));
+
+        if ($request->has('semester_started_id'))
+            $query->whereIn('semester_started_id', $request->get('semester_started_id'));
+
+        if ($request->has('semester_graduated_id'))
+            $query->whereIn('semester_graduated_id', $request->get('semester_graduated_id'));
+
+        $students = $query->distinct()->get(['students.*']);
+        $showRank = false;
+        if($sort_out_of_db)
+        {
+            if($sort_by === 'semester_started')
+            {
+                $students = $students->sortByDesc(function($stud){
+                    $last_start = -1;
+                    foreach ($stud->programs as $sp) {
+                        if($last_start == -1)
+                            $last_start = $sp->semester_started->sort_num;
+                        else if($sp->semester_started->sort_num > $last_start)
+                            $last_start = $sp->semester_started->sort_num;
+                    }
+                    return $last_start;
+                });
+            }
+        }
+
+        return view('/student/index', [
+            'students' => $students,
+            'advisors' => Advisor::all()->lists("full_name","id"),
+            'programs' => Program::lists("name","id"),
+            'semesters' => Semester::all()->lists("full_name","id"),
+            'yesNo' => ['Yes' => 'Yes', 'No' => 'No'],
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'advisor_id' => $request->get('advisor_id'),
+            'program_id' => $request->get('program_id'),
+            'semester_started_id' => $request->get('semester_started_id'),
+            'semester_graduated_id' => $request->get('semester_graduated_id'),
+            'is_current' => $request->input('is_current','Yes'),
+            'is_graduated' => $request->get('is_graduated'),
+            'has_program_study' => $request->get('has_program_study'),
+            'faculty_supported' => $request->get('faculty_supported'),
+            'has_committee' => $request->get('has_committee'),
+            'sort_options' => $this->sort_options,
+            'sort_by' => $sort_by,
+            'showRank' => $showRank,
+        ]);
+    }
+
+
+
 }

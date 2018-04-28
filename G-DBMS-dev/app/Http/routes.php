@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth', 'first_login']], function () {
 		Route::get('/home/budget/{budget}', ['as' => 'budget.show', 'uses' => 'HomeController@budget_show']);
 
 		Route::get('/student', ['as' => 'student.index_filter', 'uses' => 'StudentController@index_filter']);
+		Route::get('/ms', ['as' => 'student.index_ms', 'uses' => 'StudentController@index_ms']);
+		Route::get('/msnon', ['as' => 'student.index_msnon', 'uses' => 'StudentController@index_msnon']);
+		Route::get('/phd', ['as' => 'student.index_phd', 'uses' => 'StudentController@index_phd']);
 		Route::get('/prospective_student', ['as' => 'prospective_student.index_filter', 'uses' => 'ProspectiveStudentController@index_filter']);
 		Route::get('/advisor', 'AdvisorController@index');
 		Route::get('/advisor/info/{advisor}', ['as' => 'advisor.info', 'uses' => 'AdvisorController@info']);

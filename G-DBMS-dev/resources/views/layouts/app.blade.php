@@ -31,6 +31,75 @@
         .fa-btn {
             margin-right: 6px;
         }
+
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #green;
+        }
+
+        ul li {
+        display: block;
+        position: relative;
+        float: left;
+        background: #green;
+        }
+
+        /* This hides the dropdowns */
+
+
+        li ul { display: none; }
+
+        ul li a {
+        display: block;
+        padding: 1em;
+        text-decoration: none;
+        white-space: nowrap;
+        color: #black;
+        }
+
+        ul li a:hover { background: #2c3e50; }
+
+        /* Display the dropdown */
+
+
+        li:hover > ul {
+        display: block;
+        position: absolute;
+        }
+
+        li:hover li { float: none; }
+
+        li:hover a { background: #green; }
+
+        li:hover li a:hover { background: #2c3e50; }
+
+        .main-navigation li ul li { border-top: 0; }
+
+        /* Displays second level dropdowns to the right of the first level dropdown */
+
+        ul ul ul {
+        left: 100%;
+        top: 0;
+        background: #fff;
+        }
+
+        /* Simple clearfix */
+
+
+
+        ul:before,
+        ul:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+        }
+
+        ul:after { clear: both; }
+
+
+</style>
 	</style>
 	
 </head>
@@ -63,23 +132,73 @@
 
                         @if ($role == 'Director' || $role == 'Chair')
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">GQE <span class="caret"></span></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MS Thesis<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/gqe/result') }}">Result</a></li>
-                                    <li><a href="{{ url('/gqe/offering') }}">Offering</a></li>
-                                    <li><a href="{{ url('/gqe/section') }}">Section</a></li>
-                                    <li><a href="{{ url('/gqe/passlevel') }}">Pass Level</a></li>
+                                    <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">GQE<span class="caret"></span></a>
+                                                <ul>
+                                                    <li><a href="{{ url('/gqe/result') }}">Result</a></li>
+                                                    <li><a href="{{ url('/gqe/offering') }}">Offering</a></li>
+                                                    <li><a href="{{ url('/gqe/section') }}">Section</a></li>
+                                                    <li><a href="{{ url('/gqe/passlevel') }}">Pass Level</a></li>
+                                                </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
                                 </ul>
                             </li>
                         @endif
                         @if ($role == 'Director')
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">MS Non-Thesis<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                    <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">GQE<span class="caret"></span></a>
+                                                <ul>
+                                                    <li><a href="{{ url('/gqe/result') }}">Result</a></li>
+                                                    <li><a href="{{ url('/gqe/offering') }}">Offering</a></li>
+                                                    <li><a href="{{ url('/gqe/section') }}">Section</a></li>
+                                                    <li><a href="{{ url('/gqe/passlevel') }}">Pass Level</a></li>
+                                                </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                            </ul>
+                                    </li>
+                                    <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
                                 </ul>
                             </li>
                         @endif
+                        @if ($role == 'Director')
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">PhD Scientific Computing<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                 <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">GQE<span class="caret"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('/gqe/result') }}">Result</a></li>
+                                                <li><a href="{{ url('/gqe/offering') }}">Offering</a></li>
+                                                <li><a href="{{ url('/gqe/section') }}">Section</a></li>
+                                                <li><a href="{{ url('/gqe/passlevel') }}">Pass Level</a></li>
+                                            </ul>
+                                </li>
+                                <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">GCE <span class="caret"></span></a>
+                                        <ul>
+                                            <li><a href="{{ url('/gce/add') }}">Add</a></li>
+                                        </ul>
+                                </li>
+                                <li><a href="{{ url('/gqe/passlevel') }}">Assistantship</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     </ul>
                 @endif
 
@@ -115,7 +234,10 @@
 		
 		<button class="w3-button w3-block w3-left-align" onclick="studentAccFunc()">Student <i class="fa fa-caret-down"></i></button>
 			<div id="studentAcc" class="w3-hide w3-white w3-card">
-				<a href="{{ url('/student') }}" class="w3-bar-item w3-button">Info</a>
+                <a href="{{ url('/ms') }}" class="w3-bar-item w3-button">MS Thesis</a>
+                <a href="{{ url('/msnon') }}" class="w3-bar-item w3-button">MS Non-Thesis</a>
+                <a href="{{ url('/phd') }}" class="w3-bar-item w3-button">PhD</a>
+				<a href="{{ url('/student') }}" class="w3-bar-item w3-button">All Students</a>
 				@if($role == 'Director' || $role == 'Secretary')
 					<a href="{{ url('/student/add') }}" class="w3-bar-item w3-button">Add</a>
 				@endif
