@@ -223,6 +223,20 @@
 			</div>
 		</div>
 		
+		<div class="form-group{{ $errors->has('num_labs_or_grader') ? ' has-error' : '' }}">
+			{!! Form::label('num_labs_or_grader', 'Number of labs/Grader:', ['class' => 'col-md-4 control-label']) !!}
+
+			<div class="col-md-6">
+				{!! Form::text('num_labs_or_grader', $assignment == null ? null : $assignment->num_labs_or_grader, ['class' => 'form-control','disabled']) !!}
+
+				@if ($errors->has('num_labs_or_grader'))
+					<span class="help-block">
+						<strong>{{ $errors->first('num_labs_or_grader') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+		
 		<div class="form-group{{ $errors->has('num_students') ? ' has-error' : '' }}">
 			{!! Form::label('num_students', 'Number enrolled:', ['class' => 'col-md-4 control-label']) !!}
 

@@ -66,6 +66,7 @@ class GtaAssignmentController extends Controller
             'semester_id' => $request->get('semester_id'),
             'instructor_id' => $request->get('instructor_id'),
             'instructors' => Advisor::all()->lists('full_name','id'),
+			'num_labs_or_grader' => $request->get('num_labs_or_grader'),
 			'num_students' => $request->get('num_students'),
 			'enrollment_percent' => $request->get('enrollment_percent'),
         ]);

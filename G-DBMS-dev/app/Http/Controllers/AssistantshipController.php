@@ -46,7 +46,6 @@ class AssistantshipController extends Controller
         'course' => 'required_with:instructor_id',
         'instructor_id' => 'required_with:course',
         'funding_source_id' => 'required',
-		'num_students' => 'numeric|min:0',
     ];
 
     /**
@@ -57,7 +56,7 @@ class AssistantshipController extends Controller
     public function index_filter(Request $request)
     {
         $sort_by = $request->get('sort_by','last_name');
-        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source','num_students','enrollment_percent')
+        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
             ->join('students','students.id','=','assistantships.student_id')
             ->join('student_programs','students.id','=','student_programs.student_id');
 
@@ -115,7 +114,7 @@ class AssistantshipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Assistantship $assist)
     {
         $students = Student::join('student_programs','student_programs.student_id','=','students.id')
             ->where('is_current',true)
@@ -178,6 +177,9 @@ class AssistantshipController extends Controller
                 'assistantship_id' => $assist->id,
                 'instructor_id' => $request->get('instructor_id'),
                 'course' => $request->get('course'),
+				'num_labs_or_grader' => $request->get('num_labs_or_grader'),
+				'num_students' => $request->get('num_students'),
+				'enrollment_percent' => $request->get('enrollment_percent'),
             ]);
         }
 
@@ -207,7 +209,9 @@ class AssistantshipController extends Controller
             'readonly' => true,
             'instructors' => Advisor::all()->lists('full_name','id'),
             'assignment' => $assist->gta_assignment,
+			'num_labs_or_grader' => $assist->num_labs_or_grader,
 			'num_students' => $assist->num_students,
+			'enrollment_percent' => $assist->enrollment_percent,
         ]);
     }
 
@@ -262,7 +266,9 @@ class AssistantshipController extends Controller
                 ]);
                 $gta->instructor_id = $request->get('instructor_id');
                 $gta->course = $request->get('course');
+				$gta->num_labs_or_grader = $request->get('num_labs_or_grader');
 				$gta->num_students = $request->get('num_students');
+				$gta->enrollment_percent = $request->get('enrollment_percent');
                 $gta->save();
             }
             else
@@ -271,7 +277,9 @@ class AssistantshipController extends Controller
                     'assistantship_id' => $assist->id,
                     'instructor_id' => $request->get('instructor_id'),
                     'course' => $request->get('course'),
+					'num_labs_or_grader' => $request->get('num_labs_or_grader'),
 					'num_students' => $request->get('num_students'),
+					'enrollment_percent' => $request->get('enrollment_percent'),
                 ]);
             }
         }
