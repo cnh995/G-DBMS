@@ -23,7 +23,7 @@
     <h1>Welcome to Graduate DBMS!</h1>
     <h3>Department of Computer Science</h3>
     {{-- <img src="{{ asset('storage/csci_logo.png') }}" alt="Department of Computer Science, University of North Dakota" class="img-responsive" /> --}}
-    <img src="{{ asset('storage/und_banner.png') }}" alt="University of North Dakota" class="img-responsive" />
+    <img src="{{ asset('storage/app/public/und_banner.png') }}" alt="University of North Dakota" class="img-responsive" />
     <a href="{{ url('/login') }}" class="btn btn-lg">Click to Login</a>
 </div>
 

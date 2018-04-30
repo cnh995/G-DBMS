@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha256-nbyata2PJRjImhByQzik2ot6gSHSU4Cqdz5bNYL2zcU=" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Allows for page-specific CSS to be inserted here -->
     @yield('styles')
 
@@ -228,10 +227,30 @@
             </div>
         </div>
     </nav>
+	
+	<style>
+		/* This styling is for the left side navigation */
+		.w3-btn,.w3-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
+		.w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}   
+		.w3-disabled,.w3-btn:disabled,.w3-button:disabled{cursor:not-allowed;opacity:0.3}.w3-disabled *,:disabled *{pointer-events:none}
+		.w3-dropdown-hover:hover > .w3-button:first-child,.w3-dropdown-click:hover > .w3-button:first-child{background-color:#ccc;color:#000}
+		.w3-bar-block .w3-dropdown-hover .w3-button,.w3-bar-block .w3-dropdown-click .w3-button{width:100%;text-align:left;padding:8px 16px}
+		.w3-button:hover{color:#000!important;background-color:#ccc!important}
+		.w3-dropdown-hover.w3-mobile,.w3-dropdown-hover.w3-mobile .w3-btn,.w3-dropdown-hover.w3-mobile .w3-button,.w3-dropdown-click.w3-mobile,.w3-dropdown-click.w3-mobile .w3-btn,.w3-dropdown-click.w3-mobile .w3-button{width:100%}}
+		.w3-bar .w3-button{white-space:normal}
+		.w3-hide{display:none!important}.w3-show-block,.w3-show{display:block!important}.w3-show-inline-block{display:inline-block!important}
+		.w3-green,.w3-hover-green:hover{color:#fff!important;background-color:#00b34d!important}
+		.w3-bar-block.w3-center .w3-bar-item{text-align:center}.w3-block{display:block;width:100%}
+		.w3-card,.w3-card-2{box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)}
+		.w3-card-4,.w3-hover-shadow:hover{box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19)}
+		.w3-sidebar{height:100%;width:200px;background-color:#fff;position:fixed!important;z-index:1;overflow:auto}
+		@media (max-width:992px){.w3-sidebar.w3-collapse{display:none}.w3-main{margin-left:0!important;margin-right:0!important}}
+		@media (min-width:993px){.w3-modal-content{width:900px}.w3-hide-large{display:none!important}.w3-sidebar.w3-collapse{display:block!important}}
+	</style>
 	<!-- Navigation on left -->
 	@if (Auth::check())
                     <?php $role = Auth::user()->role->name; ?>
-	<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:160px;">
+	<div class="w3-sidebar w3-bar-block w3-card" style="width:160px;">
 		
 		
 		<button class="w3-button w3-block w3-left-align" onclick="studentAccFunc()">Student <i class="fa fa-caret-down"></i></button>

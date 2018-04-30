@@ -50,6 +50,8 @@
                   <!-- <div class="col-md-6"> -->
                     <!-- <ul class="list-group"> -->
                       <li class="list-group-item">Instructor: {{ $assist->gta_assignment->instructor->proper_name }}</li>
+					  <li class="list-group-item">Number of students: {{ $assist->gta_assignment->num_students }}</li>
+					  <li class="list-group-item">Enrollment percent: {{ $assist->gta_assignment->enrollment_percent }}</li>
                     </ul>
                   <!-- </div> -->
 <!--                 </div>

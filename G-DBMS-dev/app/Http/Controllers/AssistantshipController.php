@@ -46,6 +46,7 @@ class AssistantshipController extends Controller
         'course' => 'required_with:instructor_id',
         'instructor_id' => 'required_with:course',
         'funding_source_id' => 'required',
+		'num_students' => 'numeric|min:0',
     ];
 
     /**
@@ -56,7 +57,7 @@ class AssistantshipController extends Controller
     public function index_filter(Request $request)
     {
         $sort_by = $request->get('sort_by','last_name');
-        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
+        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source','num_students','enrollment_percent')
             ->join('students','students.id','=','assistantships.student_id')
             ->join('student_programs','students.id','=','student_programs.student_id');
 
@@ -206,6 +207,7 @@ class AssistantshipController extends Controller
             'readonly' => true,
             'instructors' => Advisor::all()->lists('full_name','id'),
             'assignment' => $assist->gta_assignment,
+			'num_students' => $assist->num_students,
         ]);
     }
 
@@ -260,6 +262,7 @@ class AssistantshipController extends Controller
                 ]);
                 $gta->instructor_id = $request->get('instructor_id');
                 $gta->course = $request->get('course');
+				$gta->num_students = $request->get('num_students');
                 $gta->save();
             }
             else
@@ -268,6 +271,7 @@ class AssistantshipController extends Controller
                     'assistantship_id' => $assist->id,
                     'instructor_id' => $request->get('instructor_id'),
                     'course' => $request->get('course'),
+					'num_students' => $request->get('num_students'),
                 ]);
             }
         }

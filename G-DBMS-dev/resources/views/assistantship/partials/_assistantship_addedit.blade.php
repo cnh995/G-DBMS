@@ -222,6 +222,34 @@
 				@endif
 			</div>
 		</div>
+		
+		<div class="form-group{{ $errors->has('num_students') ? ' has-error' : '' }}">
+			{!! Form::label('num_students', 'Number enrolled:', ['class' => 'col-md-4 control-label']) !!}
+
+			<div class="col-md-6">
+				{!! Form::text('num_students', $assignment == null ? null : $assignment->num_students, ['class' => 'form-control','disabled']) !!}
+
+				@if ($errors->has('num_students'))
+					<span class="help-block">
+						<strong>{{ $errors->first('num_students') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+		
+		<div class="form-group{{ $errors->has('enrollment_percent') ? ' has-error' : '' }}">
+			{!! Form::label('enrollment_percent', 'Enrollment percent:', ['class' => 'col-md-4 control-label']) !!}
+
+			<div class="col-md-6">
+				{!! Form::text('enrollment_percent', $assignment == null ? null : $assignment->enrollment_percent, ['class' => 'form-control','disabled']) !!}
+
+				@if ($errors->has('enrollment_percent'))
+					<span class="help-block">
+						<strong>{{ $errors->first('enrollment_percent') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
 	</div>
 </div>
 
