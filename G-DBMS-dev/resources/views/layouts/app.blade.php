@@ -118,7 +118,7 @@
 
                 <!-- Branding Image -->
 				
-                <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-40px;">
+                <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-50px; float:left;">
                     <img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
                      G-DBMS <i class="fa fa-database"></i>
                 </a>
