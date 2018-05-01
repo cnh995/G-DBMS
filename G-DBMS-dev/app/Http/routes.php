@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth', 'first_login']], function () {
 	//Ferpa View level - Director, Chair
 	Route::group(['middleware' => 'has_role:Director_Chair'], function () {
 		Route::get('/gqe/result', 'GqeResultController@index');
+		Route::get('/gqe/result2', 'GqeResultController@index2');
+		Route::get('/gqe/result3', 'GqeResultController@index3');
 		Route::get('/gqe/offering', 'GqeOfferingController@index');
 		Route::get('/gqe/section', 'GqeSectionController@index');
 		Route::get('/gqe/passlevel', 'PassLevelController@index');
@@ -54,6 +56,8 @@ Route::group(['middleware' => ['auth', 'first_login']], function () {
 	//Money View level - Director, Chair, Secretary
 	Route::group(['middleware' => 'has_role:Director_Chair_Secretary'], function () {
 		Route::get('/assistantship', ['as' => 'assistantship.index_filter', 'uses' => 'AssistantshipController@index_filter']);
+		Route::get('/assistantship2', ['as' => 'assistantship.index_filter2', 'uses' => 'AssistantshipController@index_filter2']);
+		Route::get('/assistantship3', ['as' => 'assistantship.index_filter3', 'uses' => 'AssistantshipController@index_filter3']);
 		Route::get('/assistantship/positions', ['as' => 'position.index', 'uses' => 'PositionController@index']);
 		Route::get('/assistantship/status', ['as' => 'status.index', 'uses' => 'StatusController@index']);
 		Route::get('/assistantship/gta_assignments/',['as' => 'gta_assignment.index_filter', 'uses' => 'GtaAssignmentController@index_filter']);

@@ -53,12 +53,129 @@ class AssistantshipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     //MS thesis
+    public function index_filter2(Request $request)
+    {
+        $sort_by = $request->get('sort_by','last_name');
+        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
+            ->join('students','students.id','=','assistantships.student_id')
+            ->join('student_programs','students.id','=','student_programs.student_id')
+            ->where('student_programs.program_id','=',2);
+
+        if($sort_by !== 'semester')
+            $query->orderBy($sort_by);
+
+        if($request->has('first_name'))
+            $query->where('first_name', 'like', '%'.$request->get('first_name').'%');
+
+        if($request->has('last_name'))
+            $query->where('last_name', 'like', '%'.$request->get('last_name').'%');
+
+        if ($request->has('program_id'))
+            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('semester_id'))
+            $query->whereIn('semester_id', $request->get('semester_id'));
+
+        if ($request->has('funding_source_id'))
+            $query->whereIn('funding_source_id', $request->get('funding_source_id'));
+
+        if ($request->has('current_status_id'))
+            $query->whereIn('current_status_id', $request->get('current_status_id'));
+
+        $assists = $query->distinct()->get(['assistantships.*']);
+
+        if($sort_by === 'semester')
+        {
+            $assists = $assists->sortByDesc(function($assist){
+                return $assist->semester->sort_num;
+            });
+        }
+
+        return view('/assistantship/index', [
+            'assists' => $assists,
+            'programs' => Program::lists("name","id"),
+            'semesters' => Semester::all()->lists("full_name","id"),
+            'statuses' => AssistantshipStatus::all()->lists('description','id'),
+            'funding_sources' => FundingSource::all()->lists('name','id'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'program_id' => $request->get('program_id'),
+            'sort_by' => $sort_by,
+            'sort_options' => ['last_name' => 'Last Name','current_status_id' => 'Current Status','semester' => 'Semester'],
+            'current_status_id' => $request->get('current_status_id'),
+            'funding_source_id' => $request->get('funding_source_id'),
+            'semester_id' => $request->get('semester_id'),
+        ]);
+    }
+
+
+
+   //MS Non-Thesis 
+    public function index_filter3(Request $request)
+    {
+        $sort_by = $request->get('sort_by','last_name');
+        $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
+            ->join('students','students.id','=','assistantships.student_id')
+            ->join('student_programs','students.id','=','student_programs.student_id')
+            ->where('student_programs.program_id','=',3);
+
+        if($sort_by !== 'semester')
+            $query->orderBy($sort_by);
+
+        if($request->has('first_name'))
+            $query->where('first_name', 'like', '%'.$request->get('first_name').'%');
+
+        if($request->has('last_name'))
+            $query->where('last_name', 'like', '%'.$request->get('last_name').'%');
+
+        if ($request->has('program_id'))
+            $query->whereIn('program_id', $request->get('program_id'));
+
+        if ($request->has('semester_id'))
+            $query->whereIn('semester_id', $request->get('semester_id'));
+
+        if ($request->has('funding_source_id'))
+            $query->whereIn('funding_source_id', $request->get('funding_source_id'));
+
+        if ($request->has('current_status_id'))
+            $query->whereIn('current_status_id', $request->get('current_status_id'));
+
+        $assists = $query->distinct()->get(['assistantships.*']);
+
+        if($sort_by === 'semester')
+        {
+            $assists = $assists->sortByDesc(function($assist){
+                return $assist->semester->sort_num;
+            });
+        }
+
+        return view('/assistantship/index', [
+            'assists' => $assists,
+            'programs' => Program::lists("name","id"),
+            'semesters' => Semester::all()->lists("full_name","id"),
+            'statuses' => AssistantshipStatus::all()->lists('description','id'),
+            'funding_sources' => FundingSource::all()->lists('name','id'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'program_id' => $request->get('program_id'),
+            'sort_by' => $sort_by,
+            'sort_options' => ['last_name' => 'Last Name','current_status_id' => 'Current Status','semester' => 'Semester'],
+            'current_status_id' => $request->get('current_status_id'),
+            'funding_source_id' => $request->get('funding_source_id'),
+            'semester_id' => $request->get('semester_id'),
+        ]);
+    }
+
+    //PHD
     public function index_filter(Request $request)
     {
         $sort_by = $request->get('sort_by','last_name');
         $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
             ->join('students','students.id','=','assistantships.student_id')
-            ->join('student_programs','students.id','=','student_programs.student_id');
+            ->join('student_programs','students.id','=','student_programs.student_id')
+            ->where('student_programs.program_id','=',4);
 
         if($sort_by !== 'semester')
             $query->orderBy($sort_by);
@@ -114,7 +231,7 @@ class AssistantshipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Assistantship $assist)
+    public function store(Request $request)
     {
         $students = Student::join('student_programs','student_programs.student_id','=','students.id')
             ->where('is_current',true)
@@ -177,9 +294,6 @@ class AssistantshipController extends Controller
                 'assistantship_id' => $assist->id,
                 'instructor_id' => $request->get('instructor_id'),
                 'course' => $request->get('course'),
-				'num_labs_or_grader' => $request->get('num_labs_or_grader'),
-				'num_students' => $request->get('num_students'),
-				'enrollment_percent' => $request->get('enrollment_percent'),
             ]);
         }
 
@@ -209,9 +323,6 @@ class AssistantshipController extends Controller
             'readonly' => true,
             'instructors' => Advisor::all()->lists('full_name','id'),
             'assignment' => $assist->gta_assignment,
-			'num_labs_or_grader' => $assist->num_labs_or_grader,
-			'num_students' => $assist->num_students,
-			'enrollment_percent' => $assist->enrollment_percent,
         ]);
     }
 
@@ -266,9 +377,6 @@ class AssistantshipController extends Controller
                 ]);
                 $gta->instructor_id = $request->get('instructor_id');
                 $gta->course = $request->get('course');
-				$gta->num_labs_or_grader = $request->get('num_labs_or_grader');
-				$gta->num_students = $request->get('num_students');
-				$gta->enrollment_percent = $request->get('enrollment_percent');
                 $gta->save();
             }
             else
@@ -277,9 +385,6 @@ class AssistantshipController extends Controller
                     'assistantship_id' => $assist->id,
                     'instructor_id' => $request->get('instructor_id'),
                     'course' => $request->get('course'),
-					'num_labs_or_grader' => $request->get('num_labs_or_grader'),
-					'num_students' => $request->get('num_students'),
-					'enrollment_percent' => $request->get('enrollment_percent'),
                 ]);
             }
         }
