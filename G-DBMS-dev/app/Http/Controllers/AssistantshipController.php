@@ -113,7 +113,7 @@ class AssistantshipController extends Controller
 
 
    //MS Non-Thesis 
-    public function index_filter3(Request $request)
+    public function index_filter3(Request $request, Assistantship $assist)
     {
         $sort_by = $request->get('sort_by','last_name');
         $query = Assistantship::with('status','student','semester','corresponding_waiver','funding_source')
@@ -294,6 +294,9 @@ class AssistantshipController extends Controller
                 'assistantship_id' => $assist->id,
                 'instructor_id' => $request->get('instructor_id'),
                 'course' => $request->get('course'),
+				'num_labs_or_grader' => $request->get('num_labs_or_grader'),	
+-				'num_students' => $request->get('num_students'),	
+-				'enrollment_percent' => $request->get('enrollment_percent'),
             ]);
         }
 
@@ -323,6 +326,9 @@ class AssistantshipController extends Controller
             'readonly' => true,
             'instructors' => Advisor::all()->lists('full_name','id'),
             'assignment' => $assist->gta_assignment,
+			'num_labs_or_grader' => $assist->num_labs_or_grader,	
+-			'num_students' => $assist->num_students,	
+-			'enrollment_percent' => $assist->enrollment_percent,
         ]);
     }
 
@@ -377,6 +383,9 @@ class AssistantshipController extends Controller
                 ]);
                 $gta->instructor_id = $request->get('instructor_id');
                 $gta->course = $request->get('course');
+				$gta->num_labs_or_grader = $request->get('num_labs_or_grader');	
+-				$gta->num_students = $request->get('num_students');	
+-				$gta->enrollment_percent = $request->get('enrollment_percent');
                 $gta->save();
             }
             else
@@ -385,6 +394,9 @@ class AssistantshipController extends Controller
                     'assistantship_id' => $assist->id,
                     'instructor_id' => $request->get('instructor_id'),
                     'course' => $request->get('course'),
+					'num_labs_or_grader' => $request->get('num_labs_or_grader'),	
+-					'num_students' => $request->get('num_students'),	
+-					'enrollment_percent' => $request->get('enrollment_percent'),
                 ]);
             }
         }
