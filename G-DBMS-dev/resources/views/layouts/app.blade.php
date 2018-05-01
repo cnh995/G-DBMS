@@ -117,9 +117,11 @@
                 </button>
 
                 <!-- Branding Image -->
-				
-                <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-50px; float:left;">
-                    <img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
+				<a class="navbar-brand" href="{{ url('/home') }}">
+				<img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
+				</a>
+                <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-40px;">
+                    
                      G-DBMS <i class="fa fa-database"></i>
                 </a>
             </div>
