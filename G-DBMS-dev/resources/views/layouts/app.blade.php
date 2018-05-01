@@ -104,7 +104,11 @@
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-und navbar-fixed-top">
+	<a class="navbar-brand" href="{{ url('/home') }}">
+				<img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
+				</a>
         <div class="container">
+		
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
@@ -116,8 +120,9 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    {{-- <img src="{{ asset('storage/csci_logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" /> --}}
+				
+                <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-40px;">
+                    
                      G-DBMS <i class="fa fa-database"></i>
                 </a>
             </div>
