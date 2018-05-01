@@ -104,9 +104,6 @@
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-und navbar-fixed-top">
-	<a class="navbar-brand" href="{{ url('/home') }}">
-				<img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
-				</a>
         <div class="container">
 		
             <div class="navbar-header">
@@ -122,7 +119,7 @@
                 <!-- Branding Image -->
 				
                 <a class="navbar-brand" href="{{ url('/home') }}" style="margin-top:20px; margin-left:-40px;">
-                    
+                    <img src="{{ asset('UND-Logo.png') }}" alt="UND Computer Science - GDBMS" class="img-responsive" />
                      G-DBMS <i class="fa fa-database"></i>
                 </a>
             </div>
