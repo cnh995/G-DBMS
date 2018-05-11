@@ -25,7 +25,7 @@ class Advisor extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id','first_name','last_name','email'
+        'id','first_name','last_name','email','current_position', 'contact_number', 'advising_students'
     ];
 
     public function getFullNameAttribute() {

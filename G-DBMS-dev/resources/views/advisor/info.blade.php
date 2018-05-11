@@ -12,6 +12,9 @@
 		        	<ul class="list-group">
 		        		<li class="list-group-item">Name: {{ $advisor->first_name . " " . $advisor->last_name }}</li>
 		        		<li class="list-group-item">EMPLID: {{ $advisor->id }}</li>
+		        		<li class="list-group-item">Current Position: {{ $advisor->current_position }}</li>
+		        		<li class="list-group-item">Contact Number: {{ $advisor->contact_number }}</li>
+		        		<li class="list-group-item">No of Advising Students: {{ $advisor->advising_students }}</li>
 		        		<li class="list-group-item">Email: <a href="mailto:{{ $advisor->email }}">{{ $advisor->email }} <span class="glyphicon glyphicon-envelope"></span></a></li>
 		        	</ul>
 			        <h3>Students advised</h3>

@@ -17,6 +17,9 @@ class AdvisorController extends Controller
 	private $rules = [
 		'first_name' => 'required',
 		'last_name' => 'required',
+		'current_position' => 'required',
+		'contact_number' => 'required',
+		'advising_students' => 'required',
 		'id' => 'required|size:7|regex:/\d{7}/|unique:advisors',
 		'email' => 'email',
 	];
