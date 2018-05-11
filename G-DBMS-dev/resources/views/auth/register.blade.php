@@ -75,6 +75,45 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group{{ $errors->has('security_question') ? ' has-error' : '' }}">
+                            <label for="security_question" class="col-md-4 control-label">Security Question</label>
+
+                            <div class="col-md-6">
+                                <select id="security_question" class="form-control" name="security_question" value="{{ old('security_question') }}">
+                                    <option></option>
+                                    <option value="What is the first name of your spouse's father?">What is the first name of your spouse's father?</option>
+                                    <option value="What was your High School Mascot?">What was your High School Mascot?</option>
+                                    <option value="In what city or town did you meet your spouse/partner?">In what city or town did you meet your spouse/partner?</option>
+                                    <option value="In what city or town did your mother and father meet?">In what city or town did your mother and father meet?</option>
+                                    <option value="In what town or city was your first full time job?">In what town or city was your first full time job?</option>
+                                    <option value="What is the name of your first pet?">What is the name of your first pet?</option>
+                                    <option value="What is your oldest child's nickname?">What is your oldest child's nickname?</option>
+                                    <option value="What is the name of your first school?">What is the name of your first school?</option>
+                                </select>
+
+                                @if ($errors->has('security_question'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('security_question') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
+                            <label for="answer" class="col-md-4 control-label">Answer</label>
+
+                            <div class="col-md-6">
+                                <input id="answer" type="text" class="form-control" name="answer" value="{{ old('answer') }}">
+
+                                @if ($errors->has('answer'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('answer') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

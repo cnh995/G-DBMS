@@ -89,6 +89,8 @@ class AuthController extends Controller
             'last_name' => 'required|max:50',
             'role_id'  => 'required|exists:user_roles,id',
             'password' => 'required|min:6|confirmed',
+            'security_question' => 'required',
+            'answer' => 'required',
         ]);
     }
 
@@ -105,6 +107,8 @@ class AuthController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'role_id' => $data['role_id'],
+            'security_question' => $data['security_question'],
+            'answer' => $data['answer'],
             'password' => bcrypt($data['password']),
         ]);
     }
